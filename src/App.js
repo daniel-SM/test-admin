@@ -1,8 +1,9 @@
 import React from 'react';
 import { Admin, Resource } from 'react-admin';
+import jsonServerProvider from 'ra-data-json-server';
+
 import { PostList, PostEdit, PostCreate } from './Posts';
 import { UserList } from './Users';
-import jsonServerProvider from 'ra-data-json-server';
 
 const dataProvider = jsonServerProvider('http://jsonplaceholder.typicode.com');
 const App = () => (
