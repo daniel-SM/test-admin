@@ -3,6 +3,10 @@ import { List, Datagrid, TextField, ReferenceField, EditButton } from 'react-adm
 import { Edit, SimpleForm, DisabledInput, TextInput, ReferenceInput, SelectInput, LongTextInput } from 'react-admin';
 import { Create } from 'react-admin';
 
+const PostTitle = ({ record }) => {
+  return <span>Post {record ? `"${record.title}"` : ''}</span>;
+};
+
 export const PostList = props => (
   <List {...props}>
     <Datagrid>
@@ -17,7 +21,7 @@ export const PostList = props => (
 );
 
 export const PostEdit = props => (
-  <Edit {...props}>
+  <Edit title={<PostTitle />} {...props}>
     <SimpleForm>
       <DisabledInput source="id" />
       <ReferenceInput source="userId" reference="users">
@@ -31,12 +35,12 @@ export const PostEdit = props => (
 
 export const PostCreate = props => (
   <Create {...props}>
-      <SimpleForm>
-          <ReferenceInput source="userId" reference="users">
-              <SelectInput optionText="name" />
-          </ReferenceInput>
-          <TextInput source="title" />
-          <LongTextInput source="body" />
-      </SimpleForm>
+    <SimpleForm>
+      <ReferenceInput source="userId" reference="users">
+        <SelectInput optionText="name" />
+      </ReferenceInput>
+      <TextInput source="title" />
+      <LongTextInput source="body" />
+    </SimpleForm>
   </Create>
 );
