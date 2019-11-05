@@ -3,7 +3,7 @@ import { List, Datagrid, TextField, ReferenceField, EditButton } from 'react-adm
 import { Edit, SimpleForm, DisabledInput, TextInput, ReferenceInput, SelectInput, LongTextInput } from 'react-admin';
 import { Create /*, SimpleForm, DisabledInput, TextInput, ReferenceInput, SelectInput, LongTextInput*/ } from 'react-admin';
 import { Filter /*, ReferenceInput, SelectInput, TextInput, List*/ } from 'react-admin';
-
+import { Responsive, SimpleList } from 'react-admin';
 
 const PostTitle = ({ record }) => {
   return <span>Post {record ? `"${record.title}"` : ''}</span>;
@@ -11,23 +11,34 @@ const PostTitle = ({ record }) => {
 
 const PostFilter = (props) => (
   <Filter {...props}>
-      <TextInput label="Search" source="q" alwaysOn />
-      <ReferenceInput label="User" source="userId" reference="users" allowEmpty>
-          <SelectInput optionText="name" />
-      </ReferenceInput>
+    <TextInput label="Search" source="q" alwaysOn />
+    <ReferenceInput label="User" source="userId" reference="users" allowEmpty>
+      <SelectInput optionText="name" />
+    </ReferenceInput>
   </Filter>
 );
 
 export const PostList = props => (
   <List filters={<PostFilter />} {...props}>
-    <Datagrid>
-      <TextField source="id" />
-      <ReferenceField source="userId" reference="users">
-        <TextField source="name" />
-      </ReferenceField>
-      <TextField source="title" />
-      <EditButton />
-    </Datagrid>
+    <Responsive
+      small={
+        <SimpleList
+          primaryText={record => record.title}
+          secondaryText={record => `${record.views} views`}
+          tertiaryText={record => new Date(record.published_at).toLocaleDateString()}
+        />
+      }
+      medium={
+        <Datagrid>
+          <TextField source="id" />
+          <ReferenceField label="User" source="userId" reference="users">
+            <TextField source="name" />
+          </ReferenceField>
+          <TextField source="title" />
+          <EditButton />
+        </Datagrid>
+      }
+    />
   </List>
 );
 
